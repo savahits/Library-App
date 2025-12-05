@@ -1,13 +1,16 @@
 package ru.shmelev.libraryapp.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.annotation.RequestScope;
+import ru.shmelev.libraryapp.dto.request.SaveReaderRequest;
+import ru.shmelev.libraryapp.dto.responce.ReaderResponse;
 import ru.shmelev.libraryapp.entity.Reader;
 import ru.shmelev.libraryapp.service.ReaderService;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -28,6 +31,17 @@ public class ReaderController {
     @GetMapping("/id")
     public Reader getReaderById(Long id) {
         return readerService.findById(id);
+    }
+
+    @PostMapping("/new")
+    public ResponseEntity<ReaderResponse> createReader(
+            @Valid @RequestBody SaveReaderRequest request) {
+
+        ReaderResponse response = readerService.save(request);
+
+        return ResponseEntity
+                .created(URI.create("/api/readers/" + response.id()))
+                .body(response);
     }
 
 }
