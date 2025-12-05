@@ -1,49 +1,33 @@
 package ru.shmelev.libraryapp.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 @Entity
+@Table(name = "reader")
 public class Reader {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Измените на IDENTITY
+    @Column(name = "id")
     private Long id;
 
-    public Long getId() {
-        return id;
-    }
+    @Column(name = "name", nullable = false) // Добавьте nullable если нужно
+    private String name;
 
+    @Column(name = "surname")
+    private String surname;
+
+    @Column(name = "email", unique = true) // Добавьте unique если email должен быть уникальным
+    private String email;
+
+    // Конструкторы остаются
     public Reader(Long id, String name, String surname, String email) {
         this.id = id;
         this.name = name;
         this.surname = surname;
-        this.email = email;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -57,8 +41,4 @@ public class Reader {
                 ", email='" + email + '\'' +
                 '}';
     }
-
-    private String name;
-    private String surname;
-    private String email;
 }
