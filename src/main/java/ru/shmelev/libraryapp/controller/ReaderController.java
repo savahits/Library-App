@@ -25,4 +25,9 @@ public class ReaderController {
         return readerService.findAll();
     }
 
+    @GetMapping("/id")
+    public Reader getReaderById(Long id) {
+        return readerService.findById(id);
+    }
+
 }
