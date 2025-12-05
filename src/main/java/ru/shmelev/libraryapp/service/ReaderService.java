@@ -21,4 +21,8 @@ public class ReaderService {
         return readerRepository.findAll();
     }
 
+    public Reader findById(Long id) {
+        return readerRepository.findById(id).orElse(null);
+    }
+
 }
