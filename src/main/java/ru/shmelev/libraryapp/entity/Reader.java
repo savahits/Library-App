@@ -10,20 +10,19 @@ import lombok.Setter;
 @Table(name = "reader")
 public class Reader {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Измените на IDENTITY
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name", nullable = false) // Добавьте nullable если нужно
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "surname")
     private String surname;
 
-    @Column(name = "email", unique = true) // Добавьте unique если email должен быть уникальным
+    @Column(name = "email", unique = true)
     private String email;
 
-    // Конструкторы остаются
     public Reader(Long id, String name, String surname, String email) {
         this.id = id;
         this.name = name;
