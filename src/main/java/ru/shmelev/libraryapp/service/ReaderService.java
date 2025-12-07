@@ -1,7 +1,10 @@
 package ru.shmelev.libraryapp.service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import ru.shmelev.libraryapp.dto.request.SaveReaderRequest;
 import ru.shmelev.libraryapp.dto.responce.ReaderResponse;
 import ru.shmelev.libraryapp.entity.Reader;
@@ -19,6 +22,7 @@ public class ReaderService {
         this.readerRepository = readerRepository;
     }
 
+    //@Transactional(readOnly = true)
     public List<Reader> findAll() {
         return readerRepository.findAll();
     }
@@ -27,7 +31,15 @@ public class ReaderService {
         return readerRepository.findById(id).orElse(null);
     }
 
+    @Transactional
     public ReaderResponse save(SaveReaderRequest request) {
+        if (readerRepository.existsByEmail(request.email())){
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,  // Status 409
+                    "Email уже используется"
+            );
+        }
+
         Reader reader = new Reader();
         reader.setName(request.name());
         reader.setEmail(request.email());
@@ -42,6 +54,4 @@ public class ReaderService {
                 saveReader.getEmail()
         );
     }
-
-
 }
