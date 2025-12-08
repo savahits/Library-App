@@ -42,4 +42,9 @@ public class ReaderController {
                 .body(response);
     }
 
+    @DeleteMapping
+    public void deleteReaderById(Long id) {
+        readerService.delete(id);
+    }
+
 }
