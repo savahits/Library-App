@@ -76,10 +76,49 @@ public class ReaderService {
     public void delete(Long id) {
         if (!readerRepository.existsById(id)){
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Read not found"
+                    HttpStatus.NOT_FOUND, "Reader not found"
             );
         }
 
         readerRepository.deleteById(id);
     }
+
+    @Transactional
+    public ReaderResponse update(Long id, SaveReaderRequest request) {
+
+        Reader reader = readerRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Reader not found"
+                ));
+
+        if (!reader.getEmail().equals(request.email()) &&
+                readerRepository.existsByEmail(request.email())) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Email уже используется другим пользователем"
+            );
+        }
+
+        ReaderResponse currentState = toResponse(reader);
+        ReaderResponse newState = new ReaderResponse(
+                reader.getId(),
+                request.name(),
+                request.surname(),
+                request.email()
+        );
+
+        if (currentState.equals(newState)) {
+            return currentState;
+        }
+
+        reader.setName(request.name());
+        reader.setSurname(request.surname());
+        reader.setEmail(request.email());
+
+        Reader updatedReader = readerRepository.save(reader);
+
+        return toResponse(updatedReader);
+    }
+
 }
