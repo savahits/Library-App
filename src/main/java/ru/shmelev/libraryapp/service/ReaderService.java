@@ -1,6 +1,8 @@
 package ru.shmelev.libraryapp.service;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -49,7 +51,7 @@ public class ReaderService {
     }
 
     @Transactional
-    public ReaderResponse save(SaveReaderRequest request) {
+    public ReaderResponse save(@Valid @NotNull SaveReaderRequest request) {
         if (readerRepository.existsByEmail(request.email())){
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT,  // Status 409
@@ -84,7 +86,7 @@ public class ReaderService {
     }
 
     @Transactional
-    public ReaderResponse update(Long id, SaveReaderRequest request) {
+    public ReaderResponse update(Long id, @NotNull SaveReaderRequest request) {
 
         Reader reader = readerRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
