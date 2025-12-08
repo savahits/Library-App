@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.shmelev.libraryapp.dto.request.SaveReaderRequest;
 import ru.shmelev.libraryapp.dto.responce.ReaderResponse;
-import ru.shmelev.libraryapp.entity.Reader;
 import ru.shmelev.libraryapp.service.ReaderService;
 
 import java.net.URI;
@@ -23,12 +22,12 @@ public class ReaderController {
     }
 
     @GetMapping
-    public List<Reader> getReaders() {
+    public List<ReaderResponse> getReaders() {
         return readerService.findAll();
     }
 
     @GetMapping("/id")
-    public Reader getReaderById(Long id) {
+    public ReaderResponse getReaderById(Long id) {
         return readerService.findById(id);
     }
 

@@ -22,13 +22,30 @@ public class ReaderService {
         this.readerRepository = readerRepository;
     }
 
-    //@Transactional(readOnly = true)
-    public List<Reader> findAll() {
-        return readerRepository.findAll();
+    @Transactional()
+    public List<ReaderResponse> findAll() {
+        return readerRepository.findAll().stream()
+                .map(this::toResponse)
+                .toList();
     }
 
-    public Reader findById(Long id) {
-        return readerRepository.findById(id).orElse(null);
+    @Transactional()
+    public ReaderResponse findById(Long id) {
+        return readerRepository.findById(id)
+                .map(this::toResponse)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Читатель не найден"
+                ));
+    }
+
+    private ReaderResponse toResponse(Reader reader) {
+        return new ReaderResponse(
+                reader.getId(),
+                reader.getName(),
+                reader.getSurname(),
+                reader.getEmail()
+        );
     }
 
     @Transactional
