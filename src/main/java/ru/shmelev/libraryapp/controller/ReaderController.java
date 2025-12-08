@@ -3,6 +3,7 @@ package ru.shmelev.libraryapp.controller;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.shmelev.libraryapp.dto.request.SaveReaderRequest;
 import ru.shmelev.libraryapp.dto.responce.ReaderResponse;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/readers")
+@Validated
 public class ReaderController {
 
     ReaderService readerService;
@@ -32,14 +34,10 @@ public class ReaderController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<ReaderResponse> createReader(
-            @Valid @RequestBody SaveReaderRequest request) {
+    public ReaderResponse createReader(
+            @RequestBody @Valid SaveReaderRequest request) {
 
-        ReaderResponse response = readerService.save(request);
-
-        return ResponseEntity
-                .created(URI.create("/api/readers/" + response.id()))
-                .body(response);
+        return readerService.save(request);
     }
 
     @DeleteMapping
