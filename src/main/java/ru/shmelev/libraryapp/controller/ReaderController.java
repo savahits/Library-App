@@ -47,4 +47,15 @@ public class ReaderController {
         readerService.delete(id);
     }
 
+    @PutMapping
+    public ResponseEntity<ReaderResponse> updateReader(
+            Long id, @Valid @RequestBody SaveReaderRequest request
+    ){
+        ReaderResponse response = readerService.update(id, request);
+
+        return ResponseEntity
+                .created(URI.create("/api/readers/" + response.id()))
+                .body(response);
+    }
+
 }
