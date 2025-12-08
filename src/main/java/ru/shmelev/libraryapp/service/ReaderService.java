@@ -71,4 +71,15 @@ public class ReaderService {
                 saveReader.getEmail()
         );
     }
+
+    @Transactional
+    public void delete(Long id) {
+        if (!readerRepository.existsById(id)){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Read not found"
+            );
+        }
+
+        readerRepository.deleteById(id);
+    }
 }
