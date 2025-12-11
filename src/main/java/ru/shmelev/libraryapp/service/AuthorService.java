@@ -2,7 +2,9 @@ package ru.shmelev.libraryapp.service;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import ru.shmelev.libraryapp.dto.request.SaveAuthorRequest;
 import ru.shmelev.libraryapp.dto.responce.AuthorResponse;
 import ru.shmelev.libraryapp.entity.Author;
@@ -47,6 +49,29 @@ public class AuthorService {
 
         return toResponse(author);
 
+    }
+
+    @Transactional()
+    public AuthorResponse findById(Long id) {
+        return authorRepository.findById(id)
+                .map(this::toResponse)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Автор не найден"
+                ));
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        if (authorRepository.existsById(id))
+        {
+            authorRepository.deleteById(id);
+        }
+        else {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND
+            );
+        }
     }
 
 }
