@@ -3,6 +3,7 @@ package ru.shmelev.libraryapp.service;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.shmelev.libraryapp.dto.request.SaveAuthorRequest;
 import ru.shmelev.libraryapp.dto.responce.AuthorResponse;
 import ru.shmelev.libraryapp.entity.Author;
 import ru.shmelev.libraryapp.repository.AuthorRepository;
@@ -35,5 +36,17 @@ public class AuthorService {
         );
     }
 
+    @Transactional
+    public AuthorResponse save(SaveAuthorRequest request) {
+        Author author = new Author();
+        author.setName(request.name());
+        author.setSurname(request.surname());
+        author.setBirthDate(request.dateBirth());
+
+        authorRepository.save(author);
+
+        return toResponse(author);
+
+    }
 
 }
