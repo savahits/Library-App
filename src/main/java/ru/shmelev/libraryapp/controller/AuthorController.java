@@ -5,7 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.shmelev.libraryapp.dto.request.SaveAuthorRequest;
-import ru.shmelev.libraryapp.dto.responce.AuthorResponse;
+import ru.shmelev.libraryapp.dto.response.AuthorResponse;
+import ru.shmelev.libraryapp.dto.response.AuthorSearchResponse;
 import ru.shmelev.libraryapp.service.AuthorService;
 
 import java.util.List;
@@ -37,6 +38,11 @@ public class AuthorController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAuthor(@RequestParam Long id) {
         authorService.delete(id);
+    }
+
+    @GetMapping("/search")
+    public List<AuthorSearchResponse> getAuthorsBySearch(@RequestParam(required = false) String search) {
+        return authorService.findByFullName(search);
     }
 
 }
