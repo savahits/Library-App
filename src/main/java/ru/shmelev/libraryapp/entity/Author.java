@@ -22,7 +22,7 @@ public class Author {
     private String surname;
 
     @Column(name = "birth_date")
-    private LocalDate birthDate;  // Use LocalDate
+    private LocalDate birthDate;  // Use LocalDate — yy-mm-dd
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Book> books;
