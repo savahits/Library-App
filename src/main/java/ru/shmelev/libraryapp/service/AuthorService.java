@@ -6,7 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import ru.shmelev.libraryapp.dto.request.SaveAuthorRequest;
-import ru.shmelev.libraryapp.dto.responce.AuthorResponse;
+import ru.shmelev.libraryapp.dto.response.AuthorResponse;
+import ru.shmelev.libraryapp.dto.response.AuthorSearchResponse;
 import ru.shmelev.libraryapp.entity.Author;
 import ru.shmelev.libraryapp.repository.AuthorRepository;
 
@@ -72,6 +73,18 @@ public class AuthorService {
                     HttpStatus.NOT_FOUND
             );
         }
+    }
+
+    @Transactional
+    public List<AuthorSearchResponse> findByFullName(String request) {
+        if (request == null || request.trim().isEmpty()){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Запрос не может быть пустым!"
+            );
+        }
+        String preparedSearch = request.trim();
+
+        return authorRepository.searchByFullName(preparedSearch);
     }
 
 }
