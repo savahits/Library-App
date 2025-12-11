@@ -1,9 +1,9 @@
 package ru.shmelev.libraryapp.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.shmelev.libraryapp.dto.request.SaveAuthorRequest;
 import ru.shmelev.libraryapp.dto.responce.AuthorResponse;
 import ru.shmelev.libraryapp.service.AuthorService;
 
@@ -23,6 +23,11 @@ public class AuthorController {
     @GetMapping
     public List<AuthorResponse> getAuthors() {
         return authorService.findAll();
+    }
+
+    @PostMapping("/new")
+    public AuthorResponse save(@RequestBody @Valid SaveAuthorRequest request) {
+        return authorService.save(request);
     }
 
 }
