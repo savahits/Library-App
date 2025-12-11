@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import ru.shmelev.libraryapp.dto.request.SaveReaderRequest;
-import ru.shmelev.libraryapp.dto.responce.ReaderResponse;
+import ru.shmelev.libraryapp.dto.response.ReaderResponse;
 import ru.shmelev.libraryapp.entity.Reader;
 import ru.shmelev.libraryapp.repository.ReaderRepository;
 

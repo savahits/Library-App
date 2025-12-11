@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.shmelev.libraryapp.dto.request.SaveReaderRequest;
-import ru.shmelev.libraryapp.dto.responce.ReaderResponse;
+import ru.shmelev.libraryapp.dto.response.ReaderResponse;
 import ru.shmelev.libraryapp.service.ReaderService;
 
 import java.net.URI;
